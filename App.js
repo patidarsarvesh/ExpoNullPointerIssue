@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { getCurrentPositionAsync } from "expo-location";
+import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from "expo-location";
 import * as Notifications from "expo-notifications";
 import * as Updates from "expo-updates";
 import { useRef, useEffect } from "react";
@@ -35,9 +35,14 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
-  getCurrentPositionAsync().catch((_err) => console.log('could not get location (expected)'));
+  console.log('app render');
+
+  useEffect(() => {
+    requestForegroundPermissionsAsync();
+  }, []);
 
   useRootEnteredForegroundEffect(async () => {
+    getCurrentPositionAsync().catch((_err) => console.log('could not get location (expected)'));
     await Updates.reloadAsync();
     console.log('may not log (expected)');
   });
