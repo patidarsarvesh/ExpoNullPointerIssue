@@ -43,6 +43,8 @@ export default function App() {
 
   useRootEnteredForegroundEffect(async () => {
     getCurrentPositionAsync().catch((_err) => console.log('could not get location (expected)'));
+    Notifications.getPermissionsAsync().catch((_err) => console.log('could not get notifications (expected)'));
+    
     await Updates.reloadAsync();
     console.log('may not log (expected)');
   });
